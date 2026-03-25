@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScholarGap — منصة تحليل الأدبيات بالذكاء الاصطناعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a0f1e;--navy-mid:#0f172a;--navy-light:#1e293b;
+  --blue:#2563eb;--blue-bright:#3b82f6;--cyan:#06b6d4;
+  --gold:#f59e0b;--gold-light:#fcd34d;--green:#10b981;
+  --purple:#8b5cf6;--red:#ef4444;
+  --white:#f8fafc;--gray:#94a3b8;--gray-light:#cbd5e1;
+  --border:rgba(255,255,255,0.08);
+  --glow-blue:0 0 40px rgba(37,99,235,0.3);
+  --glow-cyan:0 0 40px rgba(6,182,212,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'Tajawal',sans-serif;overflow-x:hidden;line-height:1.7}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4}
+.grid-bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(37,99,235,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+
+/* i18n */
+[data-ar],[data-en]{display:none}
+html[data-lang="ar"] [data-ar]{display:revert}
+html[data-lang="en"] [data-en]{display:revert}
+span[data-ar],span[data-en],a[data-ar],a[data-en],button[data-ar],button[data-en]{display:none}
+html[data-lang="ar"] span[data-ar],html[data-lang="ar"] a[data-ar],html[data-lang="ar"] button[data-ar]{display:inline}
+html[data-lang="en"] span[data-en],html[data-lang="en"] a[data-en],html[data-lang="en"] button[data-en]{display:inline}
+
+/* lang switcher */
+.lang-switcher{display:flex;align-items:center;background:var(--navy-light);border:1px solid var(--border);border-radius:100px;padding:3px;gap:2px;flex-shrink:0}
+.lang-btn{padding:0.32rem 0.85rem;border-radius:100px;border:none;background:transparent;color:var(--gray);font-size:0.8rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em}
+.lang-btn.active{background:var(--blue);color:#fff;box-shadow:0 0 12px rgba(37,99,235,0.4)}
+.lang-btn:not(.active):hover{color:var(--white);background:rgba(255,255,255,0.06)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(10,15,30,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);gap:1rem}
+.nav-logo{display:flex;align-items:center;gap:0.75rem;text-decoration:none;cursor:pointer;flex-shrink:0}
+.nav-logo-icon{width:42px;height:42px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--white);letter-spacing:-0.02em}
+.nav-right{display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+
+/* buttons */
+.btn{padding:0.6rem 1.4rem;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.2s ease;display:inline-flex;align-items:center;gap:0.4rem;white-space:nowrap}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--gray-light)}
+.btn-outline:hover{border-color:var(--blue-bright);color:var(--white)}
+.btn-primary{background:var(--blue);border:1px solid transparent;color:#fff;box-shadow:0 0 20px rgba(37,99,235,0.4)}
+.btn-primary:hover{background:var(--blue-bright);box-shadow:0 0 30px rgba(59,130,246,0.5);transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;color:#1a1a1a;box-shadow:0 0 20px rgba(245,158,11,0.4);font-weight:700}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(245,158,11,0.6)}
+
+/* hero */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 1.5rem 4rem;overflow:hidden}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.hero-orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(37,99,235,0.2) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);animation:pulse 6s ease-in-out infinite}
+.hero-orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,0.15) 0%,transparent 70%);bottom:0;right:-100px;animation:pulse 8s ease-in-out infinite reverse}
+@keyframes pulse{0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:100px;padding:0.4rem 1rem;font-size:0.85rem;color:var(--blue-bright);margin-bottom:2rem;animation:fadeInDown 0.8s ease both}
+.hero-badge .dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6.5vw,5rem);font-weight:900;line-height:1.1;margin-bottom:1.5rem;animation:fadeInUp 0.8s ease 0.2s both}
+.hero-title .highlight{background:linear-gradient(135deg,var(--blue-bright),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.2rem);color:var(--gray);max-width:700px;margin:0 auto 2.5rem;animation:fadeInUp 0.8s ease 0.4s both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeInUp 0.8s ease 0.6s both}
+.hero-stats{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-top:4rem;animation:fadeInUp 0.8s ease 0.8s both}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:600;color:var(--cyan);display:block}
+.stat-label{font-size:0.82rem;color:var(--gray)}
+
+/* sections */
+section{position:relative;z-index:1}
+.section-header{text-align:center;margin-bottom:3.5rem}
+.section-tag{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--cyan);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.75rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3.5vw,2.6rem);font-weight:700;margin-bottom:1rem;line-height:1.2}
+.section-desc{color:var(--gray);font-size:1rem;max-width:580px;margin:0 auto}
+
+/* how */
+.how-section{padding:6rem 1.5rem;background:linear-gradient(180deg,transparent,rgba(15,23,42,0.8),transparent)}
+.steps-container{max-width:900px;margin:0 auto;display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:80px 1fr;gap:2rem;position:relative;padding-bottom:3rem}
+html[data-lang="en"] .step{direction:ltr;text-align:left}
+.step:last-child{padding-bottom:0}
+.step-line{position:absolute;top:80px;bottom:0;width:2px;background:linear-gradient(180deg,var(--blue),transparent)}
+html[data-lang="ar"] .step-line{right:39px}
+html[data-lang="en"] .step-line{left:39px}
+.step-num{width:80px;height:80px;background:var(--navy-light);border:2px solid var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;color:var(--blue-bright);box-shadow:var(--glow-blue);position:relative;z-index:1;flex-shrink:0}
+.step-content{padding-top:1.2rem}
+.step-title{font-size:1.25rem;font-weight:700;margin-bottom:0.5rem}
+.step-desc{color:var(--gray);font-size:0.97rem}
+
+/* features category tabs */
+.features-section{padding:6rem 1.5rem}
+.feat-tabs{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+.feat-tab{padding:0.45rem 1.1rem;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--gray);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Tajawal',sans-serif}
+.feat-tab.active,.feat-tab:hover{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 16px rgba(37,99,235,0.3)}
+.features-grid{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+.feature-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:all 0.3s ease;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 0% 0%,rgba(37,99,235,0.08) 0%,transparent 60%);opacity:0;transition:opacity 0.3s}
+.feature-card:hover{border-color:rgba(37,99,235,0.4);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.4),var(--glow-blue)}
+.feature-card:hover::before{opacity:1}
+.feature-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.1rem}
+.icon-blue{background:rgba(37,99,235,0.15)}.icon-cyan{background:rgba(6,182,212,0.15)}.icon-gold{background:rgba(245,158,11,0.15)}.icon-green{background:rgba(16,185,129,0.15)}.icon-purple{background:rgba(139,92,246,0.15)}.icon-red{background:rgba(239,68,68,0.15)}.icon-pink{background:rgba(236,72,153,0.15)}.icon-teal{background:rgba(20,184,166,0.15)}.icon-orange{background:rgba(249,115,22,0.15)}
+.feature-title{font-size:1.08rem;font-weight:700;margin-bottom:0.55rem}
+.feature-desc{color:var(--gray);font-size:0.92rem;line-height:1.6}
+.feature-badge{display:inline-block;font-size:0.7rem;font-weight:700;padding:0.15rem 0.55rem;border-radius:100px;margin-bottom:0.75rem;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em}
+.badge-new{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3)}
+.badge-pro{background:rgba(139,92,246,0.15);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)}
+.badge-unique{background:rgba(245,158,11,0.15);color:var(--gold);border:1px solid rgba(245,158,11,0.3)}
+
+/* ecosystem */
+.ecosystem-section{padding:6rem 1.5rem;background:radial-gradient(ellipse at center,rgba(37,99,235,0.06) 0%,transparent 70%)}
+.ecosystem-wrapper{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+html[data-lang="en"] .ecosystem-wrapper{direction:ltr}
+.ecosystem-visual{background:#0d1829;border:1px solid rgba(37,99,235,0.3);border-radius:20px;padding:2rem;aspect-ratio:1;position:relative;overflow:hidden;box-shadow:var(--glow-blue)}
+.eco-label{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--cyan);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
+.eco-label::before{content:'';width:8px;height:8px;background:var(--cyan);border-radius:50%}
+.network-svg{width:100%;height:calc(100% - 40px)}
+.node-paper{fill:var(--blue-bright);filter:drop-shadow(0 0 6px rgba(59,130,246,0.6))}
+.node-theme{fill:#10b981;filter:drop-shadow(0 0 6px rgba(16,185,129,0.6))}
+.link-line{stroke:rgba(59,130,246,0.3);stroke-width:1}.theme-line{stroke:rgba(16,185,129,0.3);stroke-width:1}
+@keyframes nodeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.floating{animation:nodeFloat 3s ease-in-out infinite}.floating-2{animation:nodeFloat 4s ease-in-out infinite 0.5s}.floating-3{animation:nodeFloat 3.5s ease-in-out infinite 1s}
+.eco-text h3{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:1rem;line-height:1.2}
+.eco-text p{color:var(--gray);margin-bottom:1rem;line-height:1.7}
+html[data-lang="en"] .eco-text{direction:ltr;text-align:left}
+.eco-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem}
+.legend-item{display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--gray-light)}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+
+/* use cases */
+.usecases-section{padding:6rem 1.5rem;background:linear-gradient(180deg,transparent,rgba(15,23,42,0.6),transparent)}
+.usecases-grid{max-width:1050px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+.usecase-card{background:var(--navy-light);border:1px solid var(--border);border-radius:14px;padding:1.6rem;transition:all 0.3s}
+.usecase-card:hover{border-color:rgba(6,182,212,0.3);box-shadow:var(--glow-cyan);transform:translateY(-3px)}
+html[data-lang="en"] .usecase-card{direction:ltr;text-align:left}
+.usecase-emoji{font-size:1.9rem;margin-bottom:0.9rem}
+.usecase-title{font-size:1rem;font-weight:700;margin-bottom:0.45rem}
+.usecase-desc{font-size:0.88rem;color:var(--gray)}
+
+/* research value */
+.value-section{padding:5rem 1.5rem;background:linear-gradient(135deg,rgba(37,99,235,0.05),rgba(139,92,246,0.05))}
+.value-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.value-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:all 0.3s}
+.value-card:hover{border-color:rgba(139,92,246,0.4);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+html[data-lang="en"] .value-card{direction:ltr;text-align:left}
+.value-num{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:700;background:linear-gradient(135deg,var(--blue-bright),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:0.5rem}
+.value-title{font-size:1rem;font-weight:700;margin-bottom:0.4rem}
+.value-desc{font-size:0.88rem;color:var(--gray);line-height:1.6}
+
+/* free */
+.free-section{padding:5rem 1.5rem}
+.free-banner{max-width:800px;margin:0 auto;background:linear-gradient(135deg,rgba(37,99,235,0.15),rgba(6,182,212,0.1));border:1px solid rgba(37,99,235,0.3);border-radius:24px;padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+.free-banner::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0deg,rgba(37,99,235,0.05) 60deg,transparent 120deg);animation:rotate 20s linear infinite}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.free-banner>*{position:relative;z-index:1}
+.free-badge{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#1a1a1a;font-weight:900;font-size:1rem;padding:0.4rem 1.2rem;border-radius:100px;margin-bottom:1.5rem}
+.free-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.7rem);font-weight:900;margin-bottom:1rem}
+.free-desc{color:var(--gray);margin-bottom:2rem;font-size:1rem}
+
+/* footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3rem 1.5rem;text-align:center}
+.footer-logo{display:flex;align-items:center;gap:0.75rem;justify-content:center;margin-bottom:1.5rem}
+.footer-logo-icon{width:40px;height:40px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.footer-logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700}
+.footer-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.footer-link-btn{color:var(--gray);text-decoration:none;font-size:0.88rem;transition:color 0.2s;background:none;border:none;font-family:'Tajawal',sans-serif;cursor:pointer;padding:0}
+.footer-link-btn:hover{color:var(--blue-bright)}
+.footer-divider{width:60px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));margin:1.5rem auto;border-radius:2px}
+.footer-copyright{font-size:0.88rem;color:var(--gray);line-height:1.9}
+.footer-copyright strong{color:var(--white);display:block;font-size:1rem;margin-bottom:0.2rem}
+.gold{color:var(--gold)}
+
+/* animations */
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* responsive */
+@media(max-width:768px){
+  nav{padding:0.75rem 1rem}
+  .nav-hide-mobile{display:none!important}
+  .ecosystem-wrapper{grid-template-columns:1fr}
+  .step{grid-template-columns:60px 1fr;gap:1rem}
+  .step-num{width:60px;height:60px;font-size:1.2rem}
+  html[data-lang="ar"] .step-line{right:29px}
+  html[data-lang="en"] .step-line{left:29px}
+  .hero{padding:6rem 1rem 3rem}
+  .free-banner{padding:2rem 1.25rem}
+  .lang-btn{padding:0.28rem 0.6rem;font-size:0.75rem}
+}
+@media(max-width:480px){
+  .features-grid,.usecases-grid,.value-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column;align-items:center}
+  .btn{width:100%;max-width:280px;justify-content:center}
+  .feat-tabs{gap:0.4rem}
+  .feat-tab{font-size:0.78rem;padding:0.38rem 0.85rem}
+}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--navy-light);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <div class="nav-logo-icon">📚</div>
+    <span class="nav-logo-text">ScholarGap</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">عربي</button>
+      <button class="lang-btn"        id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="btn btn-outline nav-hide-mobile"
+      onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+      <span data-ar>المميزات</span><span data-en>Features</span>
+    </button>
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
+       target="_blank" rel="noopener" class="btn btn-primary">
+      <span data-ar>🚀 ابدأ الآن</span><span data-en>🚀 Launch App</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-badge">
+    <span class="dot"></span>
+    <span data-ar>بيئة عمل بحثية متكاملة · مجاني للباحثين</span>
+    <span data-en>Complete Research Workspace · Free for Researchers</span>
+  </div>
+  <h1 class="hero-title">
+    <span data-ar>أكثر من مجرد تحليل —<br><span class="highlight">بيئة بحثية ذكية كاملة</span></span>
+    <span data-en>More Than Analysis —<br><span class="highlight">A Complete AI Research Environment</span></span>
+  </h1>
+  <p class="hero-subtitle">
+    <span data-ar>ScholarGap يحلل أبحاثك، يكتشف الفجوات، يحاكي مراجعة الأقران، يولّد مراجعة الأدبيات، ويدير مراجعك — كل ذلك في منصة واحدة مجانية.</span>
+    <span data-en>ScholarGap analyzes your papers, discovers gaps, simulates peer review, generates literature reviews, and manages your citations — all in one free platform.</span>
+  </p>
+  <div class="hero-actions">
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
+       target="_blank" rel="noopener" class="btn btn-gold">
+      <span data-ar>🚀 جرّب المنصة مجاناً</span><span data-en>🚀 Try It Free</span>
+    </a>
+    <button class="btn btn-outline"
+      onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+      <span data-ar>استعرض المميزات</span><span data-en>Explore Features</span>
+    </button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">20+</span>
+      <span class="stat-label" data-ar>ميزة متكاملة</span>
+      <span class="stat-label" data-en>Integrated Features</span></div>
+    <div class="stat"><span class="stat-num">∞</span>
+      <span class="stat-label" data-ar>مجاني للباحثين</span>
+      <span class="stat-label" data-en>Free Forever</span></div>
+    <div class="stat"><span class="stat-num">AI</span>
+      <span class="stat-label" data-ar>تحليل فوري</span>
+      <span class="stat-label" data-en>Instant Analysis</span></div>
+    <div class="stat"><span class="stat-num">AR</span>
+      <span class="stat-label" data-ar>دعم اللغة العربية</span>
+      <span class="stat-label" data-en>Arabic Language Support</span></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-header reveal">
+    <div class="section-tag"><span data-ar>// طريقة الاستخدام</span><span data-en>// HOW IT WORKS</span></div>
+    <h2 class="section-title"><span data-ar>أربع خطوات بسيطة</span><span data-en>Four Simple Steps</span></h2>
+    <p class="section-desc">
+      <span data-ar>من رفع أبحاثك إلى نشر ورقتك العلمية</span>
+      <span data-en>From uploading your papers to publishing your research</span>
+    </p>
+  </div>
+  <div class="steps-container">
+    <div class="step reveal">
+      <div class="step-line"></div><div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title"><span data-ar>📤 ارفع أوراقك البحثية</span><span data-en>📤 Upload Your Papers</span></div>
+        <div class="step-desc">
+          <span data-ar>ارفع مجموعة أبحاثك بصيغة PDF. المنصة تقبل عدة أوراق دفعة واحدة وتبدأ التحليل فوراً.</span>
+          <span data-en>Upload your research papers in PDF format. The platform accepts multiple papers at once and begins analysis immediately.</span>
+        </div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-line"></div><div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title"><span data-ar>🧠 تحليل عميق بالذكاء الاصطناعي</span><span data-en>🧠 Deep AI Analysis</span></div>
+        <div class="step-desc">
+          <span data-ar>يحلل Gemini AI محتوى الأبحاث ويستخرج المحاور الرئيسية، ويكتشف التناقضات، ويحدد الفجوات البحثية تلقائياً.</span>
+          <span data-en>Gemini AI analyzes paper content, extracts key themes, discovers contradictions, and automatically identifies research gaps.</span>
+        </div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-line"></div><div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title"><span data-ar>🗺️ استكشف خريطة النظام البحثي</span><span data-en>🗺️ Explore the Research Ecosystem Map</span></div>
+        <div class="step-desc">
+          <span data-ar>احصل على خريطة تفاعلية تربط أوراقك بالمحاور الموضوعية. اضغط على أي نقطة لاستكشاف التفاصيل.</span>
+          <span data-en>Get an interactive map connecting your papers to thematic clusters. Click any node to explore details and relationships.</span>
+        </div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title"><span data-ar>📝 صدّر واستفد</span><span data-en>📝 Export & Benefit</span></div>
+        <div class="step-desc">
+          <span data-ar>صدّر مراجعة الأدبيات، جداول الاستخراج، الاستشهادات، أو التقارير كاملة بتنسيق PDF أو CSV جاهزة للنشر.</span>
+          <span data-en>Export literature reviews, extraction tables, citations, or full reports as PDF or CSV files, ready for publication.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-header reveal">
+    <div class="section-tag"><span data-ar>// المميزات الكاملة</span><span data-en>// FULL FEATURES</span></div>
+    <h2 class="section-title"><span data-ar>٢٠+ ميزة للباحث المحترف</span><span data-en>20+ Features for the Professional Researcher</span></h2>
+    <p class="section-desc">
+      <span data-ar>بيئة عمل بحثية متكاملة تحول البحث من مجهود يدوي شاق إلى عملية ذكية ومنظمة</span>
+      <span data-en>A complete research workspace that transforms research from tedious manual effort into a smart, organized process</span>
+    </p>
+  </div>
+
+  <!-- Category 1: AI Analysis -->
+  <div style="max-width:1150px;margin:0 auto 3rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
+      <div style="width:36px;height:36px;background:rgba(37,99,235,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🧠</div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--blue-bright)">
+        <span data-ar>١. التحليل الذكي للأوراق العلمية</span>
+        <span data-en>1. AI Scientific Paper Analysis</span>
+      </h3>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-blue">🔍</div>
+        <div class="feature-badge badge-pro">AI Powered</div>
+        <div class="feature-title"><span data-ar>تحليل متعدد الأوراق</span><span data-en>Multi-Paper Analysis</span></div>
+        <div class="feature-desc"><span data-ar>تحليل عشرات الأبحاث دفعة واحدة واكتشاف الروابط والعلاقات الخفية بينها في وقت قياسي.</span><span data-en>Analyzes dozens of papers at once, uncovering hidden links and relationships between studies in record time.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-gold">⚡</div>
+        <div class="feature-badge badge-unique">Unique</div>
+        <div class="feature-title"><span data-ar>اكتشاف الفجوات البحثية</span><span data-en>Research Gap Discovery</span></div>
+        <div class="feature-desc"><span data-ar>يحدد الذكاء الاصطناعي النقاط غير المُغطاة في الدراسات الحالية ويوجهك لفرص بحثية جديدة.</span><span data-en>AI identifies uncovered points in current studies and guides you to new research opportunities.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-cyan">📌</div>
+        <div class="feature-title"><span data-ar>استخراج المواضيع الرئيسية</span><span data-en>Key Themes Extraction</span></div>
+        <div class="feature-desc"><span data-ar>تلخيص أهم المحاور التي تدور حولها الأبحاث المرفوعة وتقديمها بشكل منظم وواضح.</span><span data-en>Summarizes the most important themes across uploaded papers in a clear, organized format.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-red">⚠️</div>
+        <div class="feature-badge badge-unique">Unique</div>
+        <div class="feature-title"><span data-ar>اكتشاف التناقضات</span><span data-en>Contradiction Detection</span></div>
+        <div class="feature-desc"><span data-ar>تحديد النقاط التي اختلف فيها الباحثون — أمر حيوي في كتابة مراجعة الأدبيات الاحترافية.</span><span data-en>Identifies points where researchers disagree — critical for writing professional literature reviews.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 2: Advanced Search -->
+  <div style="max-width:1150px;margin:0 auto 3rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
+      <div style="width:36px;height:36px;background:rgba(6,182,212,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🔎</div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--cyan)">
+        <span data-ar>٢. أدوات البحث المتقدمة</span>
+        <span data-en>2. Advanced Search Tools</span>
+      </h3>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-cyan">🌐</div>
+        <div class="feature-title"><span data-ar>البحث الأكاديمي المتكامل</span><span data-en>Integrated Academic Search</span></div>
+        <div class="feature-desc"><span data-ar>إمكانية البحث عن أوراق علمية جديدة مباشرة من داخل التطبيق دون الحاجة لمغادرته.</span><span data-en>Search for new scientific papers directly within the app without ever leaving the platform.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-teal">🔗</div>
+        <div class="feature-title"><span data-ar>البحث عن أوراق مماثلة</span><span data-en>Find Similar Papers</span></div>
+        <div class="feature-desc"><span data-ar>العثور على دراسات ذات صلة بالدراسة التي يقرأها الباحث حالياً بضغطة واحدة.</span><span data-en>Find studies related to the paper you're currently reading with a single click.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-green">🎯</div>
+        <div class="feature-badge badge-new">Smart</div>
+        <div class="feature-title"><span data-ar>سد الفجوات (Gap Filling)</span><span data-en>Gap Filling</span></div>
+        <div class="feature-desc"><span data-ar>بمجرد اكتشاف فجوة بحثية، يبحث التطبيق تلقائياً عن أوراق علمية قد تكون حاولت سدّ هذه الفجوة.</span><span data-en>Once a gap is discovered, the app automatically searches for papers that may have attempted to fill it.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 3: Interactive -->
+  <div style="max-width:1150px;margin:0 auto 3rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
+      <div style="width:36px;height:36px;background:rgba(139,92,246,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">💬</div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--purple)">
+        <span data-ar>٣. التفاعل مع المحتوى</span>
+        <span data-en>3. Interactive Content Features</span>
+      </h3>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-purple">🤖</div>
+        <div class="feature-title"><span data-ar>مساعد البحث الذكي</span><span data-en>AI Research Assistant</span></div>
+        <div class="feature-desc"><span data-ar>شات بوت متخصص يمكن للباحث سؤاله عن أي تفاصيل داخل الأوراق العلمية والحصول على إجابات دقيقة.</span><span data-en>A specialized chatbot that answers any question about paper details with precision and context.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-purple">📖</div>
+        <div class="feature-badge badge-new">New</div>
+        <div class="feature-title"><span data-ar>مساعد PDF التفاعلي</span><span data-en>Interactive PDF Copilot</span></div>
+        <div class="feature-desc"><span data-ar>رفيق ذكي يساعدك أثناء قراءة ملفات PDF لاستخراج المعلومات المعقدة وتفسير الجداول والإحصاءات فوراً.</span><span data-en>A smart companion that helps you while reading PDFs, extracting complex information and interpreting tables instantly.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-gold">⭐</div>
+        <div class="feature-badge badge-unique">Unique</div>
+        <div class="feature-title"><span data-ar>محاكاة مراجعة الأقران</span><span data-en>Peer Review Simulation</span></div>
+        <div class="feature-desc"><span data-ar>ميزة فريدة تحاكي دور "المُحكّم" لتقييم جودة بحثك وتقديم نصائح لتحسينه قبل النشر الفعلي.</span><span data-en>A unique feature that simulates the "reviewer" role to assess your research quality and suggest improvements before actual submission.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 4: Productivity -->
+  <div style="max-width:1150px;margin:0 auto 3rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
+      <div style="width:36px;height:36px;background:rgba(16,185,129,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">⚡</div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--green)">
+        <span data-ar>٤. أدوات التنظيم والإنتاجية</span>
+        <span data-en>4. Organization & Productivity Tools</span>
+      </h3>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-green">📝</div>
+        <div class="feature-badge badge-pro">Auto-Generate</div>
+        <div class="feature-title"><span data-ar>مولّد مراجعة الأدبيات</span><span data-en>Literature Review Generator</span></div>
+        <div class="feature-desc"><span data-ar>صياغة مسودة أولية احترافية لمراجعة الأدبيات بناءً على الأوراق التي تم تحليلها — جاهزة للتعديل والنشر.</span><span data-en>Generates a professional first draft literature review based on analyzed papers — ready to edit and publish.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-green">📊</div>
+        <div class="feature-title"><span data-ar>جدول استخراج البيانات</span><span data-en>Data Extraction Table</span></div>
+        <div class="feature-desc"><span data-ar>تحويل المعلومات المشتتة في الأوراق إلى جدول منظم للمقارنة بين الدراسات (المنهجية، العينة، النتائج).</span><span data-en>Converts scattered information into organized comparison tables (methodology, sample, results) across studies.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-cyan">📈</div>
+        <div class="feature-badge badge-unique">Unique</div>
+        <div class="feature-title"><span data-ar>مقياس الإجماع العلمي</span><span data-en>Scientific Consensus Meter</span></div>
+        <div class="feature-desc"><span data-ar>أداة بصرية توضح مدى اتفاق أو اختلاف المجتمع العلمي حول قضية معينة — مبتكرة جداً في البحث العلمي.</span><span data-en>A visual tool showing how much the scientific community agrees or disagrees on a specific issue — highly innovative.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-blue">🔬</div>
+        <div class="feature-title"><span data-ar>التقييم النقدي للدراسات</span><span data-en>Critical Appraisal</span></div>
+        <div class="feature-desc"><span data-ar>تقييم جودة ومنهجية الدراسات العلمية بشكل آلي وفق معايير دولية مثل CASP وPRISMA.</span><span data-en>Automatically evaluates study quality and methodology according to international standards like CASP and PRISMA.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 5: Visual & Management -->
+  <div style="max-width:1150px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
+      <div style="width:36px;height:36px;background:rgba(245,158,11,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🗺️</div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--gold)">
+        <span data-ar>٥. التمثيل المرئي والإدارة والتصدير</span>
+        <span data-en>5. Visualization, Management & Export</span>
+      </h3>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-cyan">🕸️</div>
+        <div class="feature-title"><span data-ar>خريطة النظام البحثي</span><span data-en>Research Ecosystem Map</span></div>
+        <div class="feature-desc"><span data-ar>تمثيل مرئي تفاعلي يوضح العلاقات والروابط بين الأوراق العلمية المختلفة بشكل بصري مبهر.</span><span data-en>An interactive visual representation showing relationships and connections between different scientific papers.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-gold">📚</div>
+        <div class="feature-title"><span data-ar>مدير الاستشهادات</span><span data-en>Citation Manager</span></div>
+        <div class="feature-desc"><span data-ar>إدارة المراجع وتوليد الاستشهادات بتنسيقات مختلفة (APA, MLA, Chicago, Vancouver) جاهزة للنسخ.</span><span data-en>Manage references and generate citations in various formats (APA, MLA, Chicago, Vancouver) ready to copy.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-purple">🕐</div>
+        <div class="feature-title"><span data-ar>سجل التحليلات</span><span data-en>Analysis History</span></div>
+        <div class="feature-desc"><span data-ar>حفظ جميع التحليلات السابقة تلقائياً للرجوع إليها في أي وقت واستكمال العمل البحثي.</span><span data-en>Automatically saves all previous analyses for retrieval at any time to continue research work.</span></div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon icon-green">📤</div>
+        <div class="feature-badge badge-new">Export</div>
+        <div class="feature-title"><span data-ar>تصدير ومشاركة النتائج</span><span data-en>Export & Share Results</span></div>
+        <div class="feature-desc"><span data-ar>تصدير نتائج التحليل كـ PDF احترافية أو CSV، ومشاركة روابط مباشرة مع الزملاء والمشرفين.</span><span data-en>Export results as professional PDFs or CSV, and share direct links with colleagues and supervisors.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM VISUAL -->
+<section class="ecosystem-section">
+  <div class="ecosystem-wrapper">
+    <div class="ecosystem-visual reveal">
+      <div class="eco-label">Research Ecosystem Map</div>
+      <svg class="network-svg" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+        <line class="link-line" x1="150" y1="130" x2="80" y2="70"/><line class="link-line" x1="150" y1="130" x2="220" y2="60"/>
+        <line class="link-line" x1="150" y1="130" x2="60" y2="170"/><line class="link-line" x1="150" y1="130" x2="240" y2="180"/>
+        <line class="link-line" x1="150" y1="130" x2="110" y2="210"/><line class="link-line" x1="150" y1="130" x2="200" y2="230"/>
+        <line class="theme-line" x1="80" y1="70" x2="220" y2="60"/><line class="theme-line" x1="60" y1="170" x2="110" y2="210"/>
+        <line class="theme-line" x1="240" y1="180" x2="200" y2="230"/><line class="theme-line" x1="80" y1="70" x2="60" y2="170"/>
+        <g class="floating"><circle cx="150" cy="130" r="14" class="node-theme"/><circle cx="150" cy="130" r="20" fill="none" stroke="#10b981" stroke-width="1" opacity="0.3"/></g>
+        <g class="floating-2"><circle cx="80" cy="70" r="8" class="node-paper"/></g>
+        <g class="floating-3"><circle cx="220" cy="60" r="8" class="node-paper"/></g>
+        <g class="floating"><circle cx="60" cy="170" r="8" class="node-paper"/></g>
+        <g class="floating-2"><circle cx="240" cy="180" r="8" class="node-paper"/></g>
+        <g class="floating-3"><circle cx="110" cy="210" r="7" class="node-paper"/></g>
+        <g class="floating"><circle cx="200" cy="230" r="7" class="node-paper"/></g>
+        <g class="floating-2"><circle cx="150" cy="40" r="6" class="node-theme"/></g>
+        <g class="floating-3"><circle cx="40" cy="120" r="5" class="node-theme"/></g>
+        <g class="floating"><circle cx="270" cy="130" r="5" class="node-theme"/></g>
+        <text x="80" y="55" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">Paper 1</text>
+        <text x="220" y="47" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">Paper 2</text>
+        <text x="55" y="190" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">Paper 3</text>
+        <text x="250" y="200" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">Paper 4</text>
+        <text x="150" y="155" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">Theme</text>
+      </svg>
+    </div>
+    <div class="eco-text reveal">
+      <div class="section-tag"><span data-ar>// خريطة النظام البحثي</span><span data-en>// RESEARCH ECOSYSTEM</span></div>
+      <h3><span data-ar>رؤية شاملة لمنظومتك البحثية</span><span data-en>A Complete View of Your Research Ecosystem</span></h3>
+      <p><span data-ar>بدلاً من قراءة كل ورقة على حدة، يرسم ScholarGap خريطة تفاعلية تجمع أبحاثك في منظومة واحدة. اضغط على أي نقطة لاستكشاف تفاصيلها.</span>
+         <span data-en>Instead of reading each paper separately, ScholarGap draws an interactive map unifying your research. Click any node to explore its details and connections.</span></p>
+      <p><span data-ar>الخريطة تكشف التجمعات الموضوعية، الفجوات البحثية، وحجم الاتفاق والاختلاف بين الدراسات.</span>
+         <span data-en>The map reveals thematic clusters, research gaps, and the degree of agreement and disagreement across studies.</span></p>
+      <div class="eco-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div><span data-ar>ورقة بحثية</span><span data-en>Research Paper</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div><span data-ar>محور موضوعي</span><span data-en>Thematic Hub</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div><span data-ar>فجوة بحثية</span><span data-en>Research Gap</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- USE CASES -->
+<section class="usecases-section">
+  <div class="section-header reveal">
+    <div class="section-tag"><span data-ar>// لمن ScholarGap؟</span><span data-en>// WHO IS IT FOR?</span></div>
+    <h2 class="section-title"><span data-ar>يناسب كل باحث</span><span data-en>Built for Every Researcher</span></h2>
+  </div>
+  <div class="usecases-grid">
+    <div class="usecase-card reveal">
+      <div class="usecase-emoji">🎓</div>
+      <div class="usecase-title"><span data-ar>طلاب الدكتوراه والماجستير</span><span data-en>PhD &amp; Master's Students</span></div>
+      <div class="usecase-desc"><span data-ar>حدد فجوتك البحثية وابنِ مراجعة أدبيات محكمة في وقت قياسي.</span><span data-en>Identify your research gap and build a rigorous literature review in record time.</span></div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-emoji">🔬</div>
+      <div class="usecase-title"><span data-ar>الأكاديميون والباحثون</span><span data-en>Academics &amp; Researchers</span></div>
+      <div class="usecase-desc"><span data-ar>استكشف فرص نشر جديدة وتحليل الفجوات في مجالك العلمي.</span><span data-en>Explore new publication opportunities and analyze gaps in your scientific field.</span></div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-emoji">⚖️</div>
+      <div class="usecase-title"><span data-ar>القضاة والمستشارون القانونيون</span><span data-en>Judges &amp; Legal Advisors</span></div>
+      <div class="usecase-desc"><span data-ar>تحليل الدراسات القانونية وتحديد المناطق المستحدثة في التشريع.</span><span data-en>Analyze legal studies and identify emerging areas in legislation and jurisprudence.</span></div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-emoji">🏥</div>
+      <div class="usecase-title"><span data-ar>الباحثون الطبيون والصيادلة</span><span data-en>Medical Researchers &amp; Pharmacists</span></div>
+      <div class="usecase-desc"><span data-ar>رصد الفجوات في الدراسات السريرية واستكشاف علاجات غير مدروسة.</span><span data-en>Track gaps in clinical studies and explore understudied treatments.</span></div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-emoji">🕵️</div>
+      <div class="usecase-title"><span data-ar>خبراء الطب الشرعي</span><span data-en>Forensic Science Experts</span></div>
+      <div class="usecase-desc"><span data-ar>تحليل المراجع الجنائية ورصد المستجدات في تقنيات فحص المستندات.</span><span data-en>Analyze forensic references and track advances in document examination techniques.</span></div>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-emoji">🏛️</div>
+      <div class="usecase-title"><span data-ar>المؤسسات الأكاديمية</span><span data-en>Academic Institutions</span></div>
+      <div class="usecase-desc"><span data-ar>خطط استراتيجية بحثية مبنية على تحليل حقيقي للأدبيات المؤسسية.</span><span data-en>Strategic research plans built on real institutional literature analysis.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE CTA -->
+<section class="free-section">
+  <div class="free-banner reveal">
+    <div class="free-badge"><span data-ar>🎁 مجاني تماماً</span><span data-en>🎁 Completely Free</span></div>
+    <h2 class="free-title"><span data-ar>بيئة بحثية كاملة<br>بلا تكلفة</span><span data-en>A Complete Research Workspace<br>At No Cost</span></h2>
+    <p class="free-desc">
+      <span data-ar>ScholarGap يقدم 20+ ميزة احترافية مجاناً لجميع الباحثين. لا اشتراك شهري، لا بطاقة ائتمان، فقط علم حقيقي.</span>
+      <span data-en>ScholarGap offers 20+ professional features free for all researchers. No monthly subscription, no credit card — just real science.</span>
+    </p>
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
+       target="_blank" rel="noopener" class="btn btn-gold" style="font-size:1.05rem;padding:0.85rem 2.2rem;">
+      <span data-ar>🚀 افتح المنصة الآن</span><span data-en>🚀 Open the Platform</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-icon">📚</div>
+    <span class="footer-logo-text">ScholarGap</span>
+  </div>
+  <div class="footer-links">
+    <button class="footer-link-btn" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+      <span data-ar>كيف تعمل؟</span><span data-en>How It Works</span>
+    </button>
+    <button class="footer-link-btn" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+      <span data-ar>المميزات</span><span data-en>Features</span>
+    </button>
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/" target="_blank" rel="noopener" class="footer-link-btn">
+      <span data-ar>تشغيل المنصة</span><span data-en>Launch App</span>
+    </a>
+  </div>
+  <div class="footer-divider"></div>
+
+  <!-- Contact Button -->
+  <div style="margin-bottom:1.75rem">
+    <a href="mailto:zakariapharm@gmail.com" class="btn btn-outline"
+       style="display:inline-flex;align-items:center;gap:0.5rem;border-color:rgba(37,99,235,0.4);font-size:0.92rem;">
+      ✉️ <span data-ar>تواصل معنا</span><span data-en>Contact Us</span>
+      <span style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:0.82rem;">zakariapharm@gmail.com</span>
+    </a>
+  </div>
+
+  <div class="footer-copyright">
+    <strong>Dr. Zakaria Abokabera</strong>
+    <span class="gold">Forensic Expert and Researcher</span><br><br>
+    <span style="color:#475569;font-size:0.82rem;">© 2026 Intellectual Property Rights. All Rights Reserved.</span>
+  </div>
+</footer>
+
+<script>
+function setLang(lang){
+  const html=document.documentElement;
+  html.setAttribute('data-lang',lang);
+  html.setAttribute('lang',lang);
+  html.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.getElementById('btn-ar').classList.toggle('active',lang==='ar');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.title=lang==='ar'
+    ?'ScholarGap — منصة تحليل الأدبيات بالذكاء الاصطناعي'
+    :'ScholarGap — AI-Powered Research Analysis Platform';
+  try{localStorage.setItem('sg-lang',lang);}catch(e){}
+}
+(function(){
+  let s;try{s=localStorage.getItem('sg-lang');}catch(e){}
+  if(s==='en'){setLang('en');}
+  else if(!s){
+    const bl=(navigator.language||navigator.userLanguage||'ar').toLowerCase();
+    if(!bl.startsWith('ar'))setLang('en');
+  }
+})();
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay=(i%5)*0.07+'s';
+  obs.observe(el);
+});
+document.querySelector('.nav-logo').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
