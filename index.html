@@ -173,6 +173,23 @@ html[data-lang="en"] .step-line{left:39px}
 .step-desc{color:var(--gray);font-size:0.97rem}
 
 /* features category tabs */
+
+/* toolkit hub */
+.toolkit-wrapper{max-width:1150px;margin:0 auto 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.toolkit-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all 0.3s}
+.toolkit-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.4)}
+.toolkit-header{padding:1.4rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.toolkit-icon{font-size:1.8rem;flex-shrink:0}
+.toolkit-title{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.15rem}
+.toolkit-sub{font-size:0.78rem;color:var(--gray)}
+.toolkit-badge{margin-right:auto;padding:0.25rem 0.75rem;border-radius:100px;font-size:0.75rem;font-weight:700;font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0}
+.toolkit-tools{padding:0.5rem 1.5rem 1.4rem;display:flex;flex-direction:column;gap:0.7rem}
+.tool-item{display:flex;align-items:center;gap:0.75rem;font-size:0.92rem;color:var(--gray-light)}
+.tool-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+html[data-lang="en"] .toolkit-wrapper{direction:ltr}
+html[data-lang="en"] .toolkit-header{flex-direction:row}
+html[data-lang="en"] .toolkit-badge{margin-right:0;margin-left:auto}
+
 .features-section{padding:6rem 1.5rem}
 .feat-tabs{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
 .feat-tab{padding:0.45rem 1.1rem;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--gray);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Tajawal',sans-serif}
@@ -314,7 +331,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
       onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
       <span data-ar>المميزات</span><span data-en>Features</span>
     </button>
-    <a href="https://scholargap.vercel.app/"
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
        target="_blank" rel="noopener" class="btn btn-primary">
       <span data-ar>🚀 ابدأ التحليل</span><span data-en>🚀 Start Analyzing</span>
     </a>
@@ -343,7 +360,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
   </p>
 
   <div class="hero-cta-wrap">
-    <a href="https://scholargap.vercel.app/"
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
        target="_blank" rel="noopener" class="btn-hero-main">
       <span data-ar>🚀 حلّل أبحاثك الآن — مجاناً</span>
       <span data-en>🚀 Analyze Your Research Now — Free</span>
@@ -437,7 +454,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
       </iframe>
     </div>
     <div class="video-cta">
-      <a href="https://scholargap.vercel.app/"
+      <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
          target="_blank" rel="noopener" class="btn btn-gold">
         <span data-ar>🚀 جرّب المنصة بنفسك</span>
         <span data-en>🚀 Try It Yourself</span>
@@ -504,176 +521,121 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
 <section class="features-section" id="features">
   <div class="section-header reveal">
     <div class="section-tag"><span data-ar>// المميزات الكاملة</span><span data-en>// FULL FEATURES</span></div>
-    <h2 class="section-title"><span data-ar>٢٠+ ميزة للباحث المحترف</span><span data-en>20+ Features for the Professional Researcher</span></h2>
+    <h2 class="section-title"><span data-ar>مركز أدوات بحثية متكاملة</span><span data-en>A Complete Research Toolkit Hub</span></h2>
     <p class="section-desc">
-      <span data-ar>بيئة عمل بحثية متكاملة تحول البحث من مجهود يدوي شاق إلى عملية ذكية ومنظمة</span>
-      <span data-en>A complete research workspace that transforms research from tedious manual effort into a smart, organized process</span>
+      <span data-ar>أدوات مصنّفة حسب مستواك الأكاديمي — كل ما تحتاجه في مكان واحد</span>
+      <span data-en>Tools categorized by your academic level — everything you need in one place</span>
     </p>
   </div>
 
-  <!-- Category 1: AI Analysis -->
-  <div style="max-width:1150px;margin:0 auto 3rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
-      <div style="width:36px;height:36px;background:rgba(37,99,235,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🧠</div>
-      <h3 style="font-size:1.15rem;font-weight:700;color:var(--blue-bright)">
-        <span data-ar>١. التحليل الذكي للأوراق العلمية</span>
-        <span data-en>1. AI Scientific Paper Analysis</span>
-      </h3>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-blue">🔍</div>
-        <div class="feature-badge badge-pro">AI Powered</div>
-        <div class="feature-title"><span data-ar>تحليل متعدد الأوراق</span><span data-en>Multi-Paper Analysis</span></div>
-        <div class="feature-desc"><span data-ar>تحليل عشرات الأبحاث دفعة واحدة واكتشاف الروابط والعلاقات الخفية بينها في وقت قياسي.</span><span data-en>Analyzes dozens of papers at once, uncovering hidden links and relationships between studies in record time.</span></div>
+  <!-- TOOLKIT HUB -->
+  <div class="toolkit-wrapper reveal">
+    <div class="toolkit-card">
+      <div class="toolkit-header" style="background:linear-gradient(135deg,rgba(37,99,235,0.2),rgba(37,99,235,0.05))">
+        <div class="toolkit-icon">🎓</div>
+        <div>
+          <div class="toolkit-title"><span data-ar>ماجستير ودكتوراه</span><span data-en>Masters &amp; PhD</span></div>
+          <div class="toolkit-sub"><span data-ar>أدوات بناء الرسالة</span><span data-en>Thesis Building Tools</span></div>
+        </div>
+        <div class="toolkit-badge" style="background:rgba(37,99,235,0.2);color:var(--blue-bright)">3 <span data-ar>أدوات</span><span data-en>Tools</span></div>
       </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-gold">⚡</div>
-        <div class="feature-badge badge-unique">Unique</div>
-        <div class="feature-title"><span data-ar>اكتشاف الفجوات البحثية</span><span data-en>Research Gap Discovery</span></div>
-        <div class="feature-desc"><span data-ar>يحدد الذكاء الاصطناعي النقاط غير المُغطاة في الدراسات الحالية ويوجهك لفرص بحثية جديدة.</span><span data-en>AI identifies uncovered points in current studies and guides you to new research opportunities.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-cyan">📌</div>
-        <div class="feature-title"><span data-ar>استخراج المواضيع الرئيسية</span><span data-en>Key Themes Extraction</span></div>
-        <div class="feature-desc"><span data-ar>تلخيص أهم المحاور التي تدور حولها الأبحاث المرفوعة وتقديمها بشكل منظم وواضح.</span><span data-en>Summarizes the most important themes across uploaded papers in a clear, organized format.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-red">⚠️</div>
-        <div class="feature-badge badge-unique">Unique</div>
-        <div class="feature-title"><span data-ar>اكتشاف التناقضات</span><span data-en>Contradiction Detection</span></div>
-        <div class="feature-desc"><span data-ar>تحديد النقاط التي اختلف فيها الباحثون — أمر حيوي في كتابة مراجعة الأدبيات الاحترافية.</span><span data-en>Identifies points where researchers disagree — critical for writing professional literature reviews.</span></div>
+      <div class="toolkit-tools">
+        <div class="tool-item"><span class="tool-dot" style="background:var(--blue-bright)"></span><span data-ar>🔬 منقّح سؤال البحث</span><span data-en>🔬 Research Question Refiner</span></div>
+        <div class="tool-item"><span class="tool-dot" style="background:var(--blue-bright)"></span><span data-ar>📋 مخطط فصول الرسالة</span><span data-en>📋 Thesis Outliner</span></div>
+        <div class="tool-item"><span class="tool-dot" style="background:var(--blue-bright)"></span><span data-ar>🔍 باني استراتيجية البحث</span><span data-en>🔍 Search Strategy Builder</span></div>
       </div>
     </div>
-  </div>
-
-  <!-- Category 2: Advanced Search -->
-  <div style="max-width:1150px;margin:0 auto 3rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
-      <div style="width:36px;height:36px;background:rgba(6,182,212,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🔎</div>
-      <h3 style="font-size:1.15rem;font-weight:700;color:var(--cyan)">
-        <span data-ar>٢. أدوات البحث المتقدمة</span>
-        <span data-en>2. Advanced Search Tools</span>
-      </h3>
+    <div class="toolkit-card">
+      <div class="toolkit-header" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(139,92,246,0.05))">
+        <div class="toolkit-icon">🔬</div>
+        <div>
+          <div class="toolkit-title"><span data-ar>باحثون وأعضاء تدريس</span><span data-en>Post-docs &amp; Faculty</span></div>
+          <div class="toolkit-sub"><span data-ar>أدوات النشر الأكاديمي</span><span data-en>Academic Publishing Tools</span></div>
+        </div>
+        <div class="toolkit-badge" style="background:rgba(139,92,246,0.2);color:var(--purple)">3 <span data-ar>أدوات</span><span data-en>Tools</span></div>
+      </div>
+      <div class="toolkit-tools">
+        <div class="tool-item"><span class="tool-dot" style="background:var(--purple)"></span><span data-ar>✍️ الرد على المحكمين</span><span data-en>✍️ Response to Reviewers</span></div>
+        <div class="tool-item"><span class="tool-dot" style="background:var(--purple)"></span><span data-ar>📨 خطاب التقديم للمجلة</span><span data-en>📨 Cover Letter Generator</span></div>
+        <div class="tool-item"><span class="tool-dot" style="background:var(--purple)"></span><span data-ar>📊 مستشار الإحصاء</span><span data-en>📊 Statistical Advisor</span></div>
+      </div>
     </div>
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-cyan">🌐</div>
-        <div class="feature-title"><span data-ar>البحث الأكاديمي المتكامل</span><span data-en>Integrated Academic Search</span></div>
-        <div class="feature-desc"><span data-ar>إمكانية البحث عن أوراق علمية جديدة مباشرة من داخل التطبيق دون الحاجة لمغادرته.</span><span data-en>Search for new scientific papers directly within the app without ever leaving the platform.</span></div>
+    <div class="toolkit-card">
+      <div class="toolkit-header" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.05))">
+        <div class="toolkit-icon">📚</div>
+        <div>
+          <div class="toolkit-title"><span data-ar>طلاب وخريجون</span><span data-en>Students &amp; Graduates</span></div>
+          <div class="toolkit-sub"><span data-ar>أدوات التعلم والتطوير</span><span data-en>Learning &amp; Development Tools</span></div>
+        </div>
+        <div class="toolkit-badge" style="background:rgba(16,185,129,0.2);color:var(--green)">3 <span data-ar>أدوات</span><span data-en>Tools</span></div>
       </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-teal">🔗</div>
-        <div class="feature-title"><span data-ar>البحث عن أوراق مماثلة</span><span data-en>Find Similar Papers</span></div>
-        <div class="feature-desc"><span data-ar>العثور على دراسات ذات صلة بالدراسة التي يقرأها الباحث حالياً بضغطة واحدة.</span><span data-en>Find studies related to the paper you're currently reading with a single click.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-green">🎯</div>
-        <div class="feature-badge badge-new">Smart</div>
-        <div class="feature-title"><span data-ar>سد الفجوات (Gap Filling)</span><span data-en>Gap Filling</span></div>
-        <div class="feature-desc"><span data-ar>بمجرد اكتشاف فجوة بحثية، يبحث التطبيق تلقائياً عن أوراق علمية قد تكون حاولت سدّ هذه الفجوة.</span><span data-en>Once a gap is discovered, the app automatically searches for papers that may have attempted to fill it.</span></div>
+      <div class="toolkit-tools">
+        <div class="tool-item"><span class="tool-dot" style="background:var(--green)"></span><span data-ar>✒️ إعادة الصياغة الأكاديمية</span><span data-en>✒️ Academic Tone Rewriter</span></div>
+        <div class="tool-item"><span class="tool-dot" style="background:var(--green)"></span><span data-ar>💡 مبسّط المفاهيم</span><span data-en>💡 Concept Simplifier</span></div>
+        <div class="tool-item"><span class="tool-dot" style="background:var(--green)"></span><span data-ar>🖥️ مخطط العرض التقديمي</span><span data-en>🖥️ Presentation Outliner</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Category 3: Interactive -->
-  <div style="max-width:1150px;margin:0 auto 3rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
-      <div style="width:36px;height:36px;background:rgba(139,92,246,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">💬</div>
-      <h3 style="font-size:1.15rem;font-weight:700;color:var(--purple)">
-        <span data-ar>٣. التفاعل مع المحتوى</span>
-        <span data-en>3. Interactive Content Features</span>
-      </h3>
+  <!-- CORE AI FEATURES -->
+  <div class="section-header reveal" style="margin-top:4rem">
+    <div class="section-tag"><span data-ar>// قدرات الذكاء الاصطناعي</span><span data-en>// AI CAPABILITIES</span></div>
+    <h2 class="section-title" style="font-size:clamp(1.5rem,3vw,2.2rem)"><span data-ar>تحليل عميق · تمثيل مرئي · تفاعل فوري</span><span data-en>Deep Analysis · Visualization · Instant Interaction</span></h2>
+  </div>
+
+  <div class="features-grid" style="max-width:1150px;margin:0 auto">
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-gold">⚡</div>
+      <div class="feature-badge badge-unique">Unique</div>
+      <div class="feature-title"><span data-ar>اكتشاف الفجوات البحثية</span><span data-en>Research Gap Discovery</span></div>
+      <div class="feature-desc"><span data-ar>يحدد الذكاء الاصطناعي النقاط غير المُغطاة في الأدبيات الحالية ويوجهك لفرص بحثية جديدة.</span><span data-en>AI pinpoints uncovered areas in current literature and guides you toward new research opportunities.</span></div>
     </div>
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-purple">🤖</div>
-        <div class="feature-title"><span data-ar>مساعد البحث الذكي</span><span data-en>AI Research Assistant</span></div>
-        <div class="feature-desc"><span data-ar>شات بوت متخصص يمكن للباحث سؤاله عن أي تفاصيل داخل الأوراق العلمية والحصول على إجابات دقيقة.</span><span data-en>A specialized chatbot that answers any question about paper details with precision and context.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-purple">📖</div>
-        <div class="feature-badge badge-new">New</div>
-        <div class="feature-title"><span data-ar>مساعد PDF التفاعلي</span><span data-en>Interactive PDF Copilot</span></div>
-        <div class="feature-desc"><span data-ar>رفيق ذكي يساعدك أثناء قراءة ملفات PDF لاستخراج المعلومات المعقدة وتفسير الجداول والإحصاءات فوراً.</span><span data-en>A smart companion that helps you while reading PDFs, extracting complex information and interpreting tables instantly.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-gold">⭐</div>
-        <div class="feature-badge badge-unique">Unique</div>
-        <div class="feature-title"><span data-ar>محاكاة مراجعة الأقران</span><span data-en>Peer Review Simulation</span></div>
-        <div class="feature-desc"><span data-ar>ميزة فريدة تحاكي دور "المُحكّم" لتقييم جودة بحثك وتقديم نصائح لتحسينه قبل النشر الفعلي.</span><span data-en>A unique feature that simulates the "reviewer" role to assess your research quality and suggest improvements before actual submission.</span></div>
-      </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-cyan">🕸️</div>
+      <div class="feature-title"><span data-ar>خريطة النظام البحثي</span><span data-en>Research Ecosystem Map</span></div>
+      <div class="feature-desc"><span data-ar>تمثيل مرئي تفاعلي يربط أوراقك البحثية بالمحاور الموضوعية ويكشف "الروابط غير المرئية".</span><span data-en>Interactive visual map linking your papers to thematic clusters, revealing "Unseen Connections."</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-purple">📖</div>
+      <div class="feature-badge badge-new">New</div>
+      <div class="feature-title"><span data-ar>مساعد PDF التفاعلي</span><span data-en>Interactive PDF Copilot</span></div>
+      <div class="feature-desc"><span data-ar>تحدّث مع أبحاثك مباشرة — اطرح أسئلة دقيقة واحصل على إجابات من داخل الأوراق العلمية.</span><span data-en>Chat directly with your research papers — ask specific questions and get answers from within the papers.</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-gold">⭐</div>
+      <div class="feature-badge badge-unique">Unique</div>
+      <div class="feature-title"><span data-ar>محاكاة مراجعة الأقران</span><span data-en>Peer Review Simulation</span></div>
+      <div class="feature-desc"><span data-ar>احصل على تقييم AI لبحثك قبل تقديمه للمجلة — يحاكي دور المُحكّم بدقة عالية.</span><span data-en>Get AI feedback on your work before journal submission — simulates the reviewer role with high accuracy.</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-green">📝</div>
+      <div class="feature-badge badge-pro">Auto-Generate</div>
+      <div class="feature-title"><span data-ar>مولّد مراجعة الأدبيات</span><span data-en>Literature Review Generator</span></div>
+      <div class="feature-desc"><span data-ar>يولّد مسودة مراجعة أدبيات احترافية تلقائياً من أوراقك المحلّلة — جاهزة للتعديل والنشر.</span><span data-en>Auto-generates a professional literature review draft from your analyzed papers — ready to edit and publish.</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-red">⚠️</div>
+      <div class="feature-title"><span data-ar>كشف التناقضات بين الدراسات</span><span data-en>Contradiction Detection</span></div>
+      <div class="feature-desc"><span data-ar>يرصد نقاط الاختلاف والتعارض بين الدراسات تلقائياً — أساسي في بناء الإطار النظري.</span><span data-en>Automatically detects disagreements between studies — essential for a strong theoretical framework.</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-blue">🔍</div>
+      <div class="feature-title"><span data-ar>البحث الأكاديمي المدمج</span><span data-en>Integrated Academic Search</span></div>
+      <div class="feature-desc"><span data-ar>ابحث في قواعد البيانات الأكاديمية مباشرة من المنصة وأضف الأوراق للتحليل بنقرة.</span><span data-en>Search academic databases directly within the platform and add papers to analysis with one click.</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-gold">📚</div>
+      <div class="feature-title"><span data-ar>مدير الاستشهادات</span><span data-en>Citation Manager</span></div>
+      <div class="feature-desc"><span data-ar>إنشاء الاستشهادات تلقائياً بتنسيقات APA / MLA / Vancouver / Chicago جاهزة للنسخ.</span><span data-en>Auto-generate citations in APA / MLA / Vancouver / Chicago formats, ready to copy instantly.</span></div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon icon-green">📤</div>
+      <div class="feature-badge badge-new">Export</div>
+      <div class="feature-title"><span data-ar>تصدير التقارير</span><span data-en>Export Reports</span></div>
+      <div class="feature-desc"><span data-ar>صدّر نتائج تحليلك كـ PDF احترافية أو جداول CSV كاملة — جاهزة للنشر أو المشاركة.</span><span data-en>Export your analysis results as professional PDFs or complete CSV tables — ready for publication.</span></div>
     </div>
   </div>
 
-  <!-- Category 4: Productivity -->
-  <div style="max-width:1150px;margin:0 auto 3rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
-      <div style="width:36px;height:36px;background:rgba(16,185,129,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">⚡</div>
-      <h3 style="font-size:1.15rem;font-weight:700;color:var(--green)">
-        <span data-ar>٤. أدوات التنظيم والإنتاجية</span>
-        <span data-en>4. Organization & Productivity Tools</span>
-      </h3>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-green">📝</div>
-        <div class="feature-badge badge-pro">Auto-Generate</div>
-        <div class="feature-title"><span data-ar>مولّد مراجعة الأدبيات</span><span data-en>Literature Review Generator</span></div>
-        <div class="feature-desc"><span data-ar>صياغة مسودة أولية احترافية لمراجعة الأدبيات بناءً على الأوراق التي تم تحليلها — جاهزة للتعديل والنشر.</span><span data-en>Generates a professional first draft literature review based on analyzed papers — ready to edit and publish.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-green">📊</div>
-        <div class="feature-title"><span data-ar>جدول استخراج البيانات</span><span data-en>Data Extraction Table</span></div>
-        <div class="feature-desc"><span data-ar>تحويل المعلومات المشتتة في الأوراق إلى جدول منظم للمقارنة بين الدراسات (المنهجية، العينة، النتائج).</span><span data-en>Converts scattered information into organized comparison tables (methodology, sample, results) across studies.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-cyan">📈</div>
-        <div class="feature-badge badge-unique">Unique</div>
-        <div class="feature-title"><span data-ar>مقياس الإجماع العلمي</span><span data-en>Scientific Consensus Meter</span></div>
-        <div class="feature-desc"><span data-ar>أداة بصرية توضح مدى اتفاق أو اختلاف المجتمع العلمي حول قضية معينة — مبتكرة جداً في البحث العلمي.</span><span data-en>A visual tool showing how much the scientific community agrees or disagrees on a specific issue — highly innovative.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-blue">🔬</div>
-        <div class="feature-title"><span data-ar>التقييم النقدي للدراسات</span><span data-en>Critical Appraisal</span></div>
-        <div class="feature-desc"><span data-ar>تقييم جودة ومنهجية الدراسات العلمية بشكل آلي وفق معايير دولية مثل CASP وPRISMA.</span><span data-en>Automatically evaluates study quality and methodology according to international standards like CASP and PRISMA.</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Category 5: Visual & Management -->
-  <div style="max-width:1150px;margin:0 auto">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding-right:0.5rem">
-      <div style="width:36px;height:36px;background:rgba(245,158,11,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🗺️</div>
-      <h3 style="font-size:1.15rem;font-weight:700;color:var(--gold)">
-        <span data-ar>٥. التمثيل المرئي والإدارة والتصدير</span>
-        <span data-en>5. Visualization, Management & Export</span>
-      </h3>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-cyan">🕸️</div>
-        <div class="feature-title"><span data-ar>خريطة النظام البحثي</span><span data-en>Research Ecosystem Map</span></div>
-        <div class="feature-desc"><span data-ar>تمثيل مرئي تفاعلي يوضح العلاقات والروابط بين الأوراق العلمية المختلفة بشكل بصري مبهر.</span><span data-en>An interactive visual representation showing relationships and connections between different scientific papers.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-gold">📚</div>
-        <div class="feature-title"><span data-ar>مدير الاستشهادات</span><span data-en>Citation Manager</span></div>
-        <div class="feature-desc"><span data-ar>إدارة المراجع وتوليد الاستشهادات بتنسيقات مختلفة (APA, MLA, Chicago, Vancouver) جاهزة للنسخ.</span><span data-en>Manage references and generate citations in various formats (APA, MLA, Chicago, Vancouver) ready to copy.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-purple">🕐</div>
-        <div class="feature-title"><span data-ar>سجل التحليلات</span><span data-en>Analysis History</span></div>
-        <div class="feature-desc"><span data-ar>حفظ جميع التحليلات السابقة تلقائياً للرجوع إليها في أي وقت واستكمال العمل البحثي.</span><span data-en>Automatically saves all previous analyses for retrieval at any time to continue research work.</span></div>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon icon-green">📤</div>
-        <div class="feature-badge badge-new">Export</div>
-        <div class="feature-title"><span data-ar>تصدير ومشاركة النتائج</span><span data-en>Export & Share Results</span></div>
-        <div class="feature-desc"><span data-ar>تصدير نتائج التحليل كـ PDF احترافية أو CSV، ومشاركة روابط مباشرة مع الزملاء والمشرفين.</span><span data-en>Export results as professional PDFs or CSV, and share direct links with colleagues and supervisors.</span></div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- ECOSYSTEM VISUAL -->
@@ -770,7 +732,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
       <span data-ar>ScholarGap يقدم 20+ ميزة احترافية مجاناً لجميع الباحثين. لا اشتراك شهري، لا بطاقة ائتمان، فقط علم حقيقي.</span>
       <span data-en>ScholarGap offers 20+ professional features free for all researchers. No monthly subscription, no credit card — just real science.</span>
     </p>
-    <a href="https://scholargap.vercel.app/"
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/"
        target="_blank" rel="noopener" class="btn btn-gold" style="font-size:1.05rem;padding:0.85rem 2.2rem;">
       <span data-ar>🚀 افتح المنصة الآن</span><span data-en>🚀 Open the Platform</span>
     </a>
@@ -790,7 +752,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
     <button class="footer-link-btn" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
       <span data-ar>المميزات</span><span data-en>Features</span>
     </button>
-    <a href="https://scholargap.vercel.app/" target="_blank" rel="noopener" class="footer-link-btn">
+    <a href="https://ais-pre-vhuvu2d6oxdau2lofg53rw-683354185933.europe-west2.run.app/" target="_blank" rel="noopener" class="footer-link-btn">
       <span data-ar>تشغيل المنصة</span><span data-en>Launch App</span>
     </a>
   </div>
